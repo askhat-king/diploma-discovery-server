@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import {registerValidation, loginValidation, postCreateValidation} from './validations.js';
 import {checkAuth, handleValidationErrors} from './utils/index.js'
 import {UserController, PostController, CommentController} from './controlers/index.js'
-mongoose.connect('mongodb+srv://admin:admin@cluster0.wncism3.mongodb.net/blog?retryWrites=true&w=majority')
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('DB ok'))
     .catch((err) => console.log('DB error', err));
 
@@ -53,7 +53,7 @@ app.get('/user/:id', UserController.getUserOne);
 app.patch('/user/:id', checkAuth, UserController.userUpdate);
 
 
-app.listen(4444, (err) =>{
+app.listen(process.env.PORT || 4444, (err) =>{
     if(err){
         return console.log(err);
     }
