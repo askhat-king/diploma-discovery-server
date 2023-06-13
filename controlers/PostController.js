@@ -16,20 +16,16 @@ export const getLastTags = async(req, res) => {
 }
 
 export const getAll = async(req, res) => {
-    try{
-      const students = [];
-      const users = await UserModel.find({ role: "student" });
-      users.map(u => {
-          students.push(u._id);
-      });
-      const posts = await PostModel.find({ user: {$in: students} }).populate('user').exec();
-      res.json(posts);
-    } catch(err){
-        console.log(err);
-        res.status(500).json({
-          message: 'Не удалось получить статьи',
-        });
-    }
+  try{
+    const posts = await PostModel.find().populate('user').exec();
+
+    res.json(posts);
+} catch(err){
+    console.log(err);
+    res.status(500).json({
+      message: 'Can not get post',
+    });
+}
 }
 export const getAllByTeacher = async(req, res) => {
   try {
